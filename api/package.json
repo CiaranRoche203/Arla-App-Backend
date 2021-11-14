@@ -1,0 +1,30 @@
+{
+  "name": "backendnewrepo",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arla-arla/BackendNewRepo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arla-arla/BackendNewRepo/issues"
+  },
+  "homepage": "https://github.com/Arla-arla/BackendNewRepo#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "lodash": "^4.17.21",
+    "method-override": "^3.0.0",
+    "nconf": "^0.11.3",
+    "neo4j-driver": "^4.4.0",
+    "nodemon": "^2.0.15"
+  }
+}
