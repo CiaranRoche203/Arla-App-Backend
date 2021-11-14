@@ -15,8 +15,7 @@ nconf.env(['PORT'])
         .defaults({
             'username': process.env.DATABASE_USERNAME,
             'password': process.env.DATABASE_PASSWORD,
-            'url': process.env.DATABASE_URL
-
+            'url': process.env.DATABASE_URL,
         });
 
 module.exports = nconf;

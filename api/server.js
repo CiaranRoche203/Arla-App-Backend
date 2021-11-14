@@ -4,10 +4,10 @@ const express = require('express'),
  app = express(),
  path = require('path'),
  cors = require('cors'),
- bodyParser = require('body-parser'),
  nconf = require('./config'),
  methodOverride = require('method-override'),
- writeError = require('./helpers/response').writeError;
+ writeError = require('./helpers/response').writeError,
+ routes = require('./routes');
 
 // Set port
 app.set('port', nconf.get('PORT'))
@@ -28,12 +28,22 @@ app.use(function (req, res, next) {
     next();
   });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride());
 
 //dummy request
 app.get('/dummy', (req, res) => res.send('Response from server.js'))
+
+// --------------------------------------------------------------------
+// --- API ------------------------------------------------------------
+// --------------------------------------------------------------------
+
+//People
+app.use('/people', routes.people);
+//
+
+
 
 // error handler
 app.use(function (err, req, res, next) {
