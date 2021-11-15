@@ -21,7 +21,7 @@ const getByNameAllDetails = async (name) =>{
 }
 
 const create = async (person) =>{
-    const result = await session.run(`CREATE (people:Person {name: '${person.name}', bio: '${person.bio}'}) RETURN people`)
+    const result = await session.run(`MERGE (people:Person {name: '${person.name}', bio: '${person.bio}'}) RETURN people`)
     return result.records.map(r => r.get('people').properties)
 }
 
