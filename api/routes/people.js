@@ -27,4 +27,16 @@ people.post('/', async function (req, res, next){
     .catch(next);
 })
 
+people.put('/:name', async function (req, res, next){
+    await peopleModel.findbyNameAndUpdate(req.params.name, req.body)
+    .then(result => writeResponse(res, result))
+    .catch(next);
+})
+
+people.delete('/:name', async function (req, res, next){
+    await peopleModel.findByNameAndDelete(req.params.name)
+    .then(result => writeResponse(res, result))
+    .catch(next);
+})
+
 module.exports = people;

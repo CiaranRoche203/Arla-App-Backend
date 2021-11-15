@@ -25,9 +25,21 @@ const create = async (person) =>{
     return result.records.map(r => r.get('people').properties)
 }
 
+const findbyNameAndUpdate = async (name, person) =>{
+    const result = await session.run(`MATCH (people:Person {name: '${name}'}) SET people.name = '${person.name}', people.bio = '${person.name}'`)
+    return result.records.map(r => r.get('people').properties)
+}
+
+const findByNameAndDelete = async (name) =>{
+    const result = await session.run(`MATCH (people:Person {name: '${name}'}) DETACH DELETE people`)
+    return result.records.map(r => r.get('people').properties)
+}
+
 module.exports = {
     getAll: getAll,
     getByName: getByName,
     getByNameAllDetails: getByNameAllDetails,
-    create: create
+    create: create,
+    findbyNameAndUpdate: findbyNameAndUpdate,
+    findByNameAndDelete: findByNameAndDelete
 };
