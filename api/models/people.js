@@ -5,6 +5,29 @@ const getAll = async () =>{
     return result.records.map(r => r.get('people').properties)
 }
 
+const getByName = async (name) =>{
+    const result = await session.run(`MATCH (people:Person {name: '${name}'}) RETURN people`)
+    return result.records.map(r => r.get('people').properties)
+}
+
+const getByNameAllDetails = async (name) =>{
+    const result = await session.run(`MATCH (people:Person {name: '${name}'})-[r]-(b)
+    RETURN DISTINCT people, r, b`)
+    const resultsArray = {}
+    resultsArray.person = person = result.records.map(r => r.get('people').properties)
+    resultsArray.relationship = result.records.map(r => r.get('r').properties)
+    resultsArray.otherNode = result.records.map(r => r.get('b').properties)
+    return resultsArray
+}
+
+const create = async (person) =>{
+    const result = await session.run(`CREATE (people:Person {name: '${person.name}', bio: '${person.bio}'}) RETURN people`)
+    return result.records.map(r => r.get('people').properties)
+}
+
 module.exports = {
-    getAll: getAll
+    getAll: getAll,
+    getByName: getByName,
+    getByNameAllDetails: getByNameAllDetails,
+    create: create
 };
