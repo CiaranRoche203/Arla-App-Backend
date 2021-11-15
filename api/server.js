@@ -41,7 +41,12 @@ app.get('/dummy', (req, res) => res.send('Response from server.js'))
 
 //People
 app.use('/people', routes.people);
-//
+/**
+ *  GET - request ||| '/people' - path ||| getAll - function name
+ * 
+ * 
+ * 
+ */ 
 
 
 
