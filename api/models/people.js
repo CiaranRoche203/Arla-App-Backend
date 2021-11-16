@@ -10,11 +10,11 @@ const getByName = async (name) =>{
     return result.records.map(r => r.get('people').properties)
 }
 
-const getByNameAllDetails = async (name) =>{
+const getByNameAllRelationships = async (name) =>{
     const result = await session.run(`MATCH (people:Person {name: '${name}'})-[r]-(b)
     RETURN DISTINCT people, r, b`)
     const resultsArray = {}
-    resultsArray.person = person = result.records.map(r => r.get('people').properties)
+    resultsArray.person = result.records.map(r => r.get('people').properties)
     resultsArray.relationship = result.records.map(r => r.get('r').properties)
     resultsArray.otherNode = result.records.map(r => r.get('b').properties)
     return resultsArray
@@ -26,7 +26,7 @@ const create = async (person) =>{
 }
 
 const findbyNameAndUpdate = async (name, person) =>{
-    const result = await session.run(`MATCH (people:Person {name: '${name}'}) SET people.name = '${person.name}', people.bio = '${person.name}'`)
+    const result = await session.run(`MATCH (people:Person {name: '${name}'}) SET people.name = '${person.name}', people.bio = '${person.name}' RETURN people`)
     return result.records.map(r => r.get('people').properties)
 }
 
@@ -38,7 +38,7 @@ const findByNameAndDelete = async (name) =>{
 module.exports = {
     getAll: getAll,
     getByName: getByName,
-    getByNameAllDetails: getByNameAllDetails,
+    getByNameAllRelationships: getByNameAllRelationships,
     create: create,
     findbyNameAndUpdate: findbyNameAndUpdate,
     findByNameAndDelete: findByNameAndDelete

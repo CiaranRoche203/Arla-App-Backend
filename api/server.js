@@ -48,6 +48,25 @@ app.use('/people', routes.people);
  * 
  */ 
 
+//Country
+app.use('/country', routes.country);
+/**
+ *  GET - request ||| '/people' - path ||| getAll - function name
+ * 
+ * 
+ * 
+ */ 
+
+
+
+
+
+
+
+
+
+
+
 
 
 // error handler

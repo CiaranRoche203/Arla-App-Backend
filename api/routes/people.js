@@ -16,7 +16,7 @@ people.get('/:name', async function (req, res, next){
 })
 
 people.get('/all/:name', async function (req, res, next){
-    await peopleModel.getByNameAllDetails(req.params.name)
+    await peopleModel.getByNameAllRelationships(req.params.name)
     .then(result => writeResponse(res, result))
     .catch(next);
 })
