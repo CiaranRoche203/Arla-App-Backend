@@ -30,7 +30,7 @@ const createPerson = async (person) =>{
 }
 
 const findbyNameAndUpdate = async (name, person) =>{
-    const result = await session.run(`MATCH (people:Person {name: '${name}'}) SET people.name = '${person.name}', people.bio = '${person.name}' RETURN people`)
+    const result = await session.run(`MATCH (people:Person {name: '${name}'}) SET people.name = '${person.name}', people.bio = '${person.bio}' RETURN people`)
     return result.records.map(r => r.get('people').properties)
 }
 
