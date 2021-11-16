@@ -11,12 +11,16 @@ const getByName = async (name) =>{
 }
 
 const getByNameAllRelationships = async (name) =>{
-    const result = await session.run(`MATCH (people:Person {name: '${name}'})-[r]->(b)
-    RETURN DISTINCT people, r, b`)
+    const result = await session.run(`MATCH (people:Person {name: '${name}'})
+    OPTIONAL MATCH (people)-[r:GRADUATED]->(course:Course) 
+    OPTIONAL MATCH (people)-[:INTEREST_IN]->(interest:Interest)
+    OPTIONAL MATCH (people)-[:LIVES_IN]->(country:Country)
+    RETURN DISTINCT course.name, r.year, interest.name, country.name`)
     const resultsArray = {}
-    resultsArray.person = result.records.map(r => r.get('people').properties)
-    resultsArray.relationship = result.records.map(r => r.get('r').properties)
-    resultsArray.otherNode = result.records.map(r => r.get('b').properties)
+    resultsArray.course = result.records.map(r => r.get('course.name'))
+    resultsArray.course_Year = result.records.map(r => r.get('r.year').low)
+    resultsArray.interest = result.records.map(r => r.get('interest.name'))
+    resultsArray.country = result.records.map(r => r.get('country.name'))
     return resultsArray
 }
 
