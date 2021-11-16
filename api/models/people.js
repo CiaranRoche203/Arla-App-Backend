@@ -11,7 +11,7 @@ const getByName = async (name) =>{
 }
 
 const getByNameAllRelationships = async (name) =>{
-    const result = await session.run(`MATCH (people:Person {name: '${name}'})-[r]-(b)
+    const result = await session.run(`MATCH (people:Person {name: '${name}'})-[r]->(b)
     RETURN DISTINCT people, r, b`)
     const resultsArray = {}
     resultsArray.person = result.records.map(r => r.get('people').properties)

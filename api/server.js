@@ -66,7 +66,14 @@ app.use('/course', routes.course);
  * 
  */ 
 
-
+//Interest
+app.use('/interest', routes.interest);
+/**
+ *  GET - request ||| '/people' - path ||| getAll - function name
+ * 
+ * 
+ * 
+ */ 
 
 
 

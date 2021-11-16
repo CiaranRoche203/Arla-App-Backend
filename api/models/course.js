@@ -11,8 +11,11 @@ const getByName = async (name) =>{
 }
 
 const getByCourseAllRelationships = async (name) =>{
-    const result = await session.run(`MATCH (course:Course {name: '${name}'})<-[:LIVES_IN]-(people) RETURN people`)
-    return result.records.map(r => r.get('people').properties)
+    const result = await session.run(`MATCH (course:Course {name: '${name}'})<-[r:GRADUATED]-(people) RETURN people, r.year`)
+    const resultsArray = {}
+    resultsArray.person = result.records.map(r => r.get('people').properties)
+    resultsArray.year = result.records.map(r => r.get('r.year'))
+    return resultsArray
 }
 
 const create = async (course) =>{
