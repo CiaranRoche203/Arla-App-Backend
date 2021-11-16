@@ -57,6 +57,14 @@ app.use('/country', routes.country);
  * 
  */ 
 
+//Course
+app.use('/course', routes.course);
+/**
+ *  GET - request ||| '/people' - path ||| getAll - function name
+ * 
+ * 
+ * 
+ */ 
 
 
 
