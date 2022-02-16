@@ -34,6 +34,7 @@ course.put('/:name', async function (req, res, next){
 })
 
 course.delete('/:name', async function (req, res, next){
+    console.log(req.params)
     await courseModel.findByNameAndDelete(req.params.name)
     .then(result => writeResponse(res, result))
     .catch(next);

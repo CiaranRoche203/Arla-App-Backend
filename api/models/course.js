@@ -14,12 +14,13 @@ const getByCourseAllRelationships = async (name) =>{
     const result = await session.run(`MATCH (course:Course {name: '${name}'})<-[r:GRADUATED]-(people) RETURN people, r.year`)
     const resultsArray = {}
     resultsArray.person = result.records.map(r => r.get('people').properties)
-    resultsArray.year = result.records.map(r => r.get('r.year').low)
+    resultsArray.year = result.records.map(r => r.get('r.year'))
     return resultsArray
 }
 
 const create = async (course) =>{
-    const result = await session.run(`MERGE (course:Course {name: '${course.name}'}) RETURN course`)
+    console.log(course.year)
+    const result = await session.run(`MERGE (course:Course {name: '${course.name}', year: '${course.year}'} ) RETURN course`)
     return result.records.map(r => r.get('course').properties)
 }
 

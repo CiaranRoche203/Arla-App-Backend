@@ -18,7 +18,7 @@ const getByNameAllRelationships = async (name) =>{
     RETURN DISTINCT course.name, r.year, interest.name, country.name`)
     const resultsArray = {}
     resultsArray.course = result.records.map(r => r.get('course.name'))
-    resultsArray.course_Year = result.records.map(r => r.get('r.year').low)
+    resultsArray.course_Year = result.records.map(r => r.get('r.year'))
     resultsArray.interest = result.records.map(r => r.get('interest.name'))
     resultsArray.country = result.records.map(r => r.get('country.name'))
     return resultsArray
@@ -66,10 +66,11 @@ const deleteRelationshipWithInterest = async (name, interest) =>{
 //---Course Node---
 
 //Create
-const createRelationshipWithCourse = async (name, course) =>{
+const createRelationshipWithCourse = async (name) =>{
+    console.log("Name is: ", name.name, "course is: ", name.course)
     const result = await session.run(`MATCH (people:Person), (course:Course)
-    WHERE people.name = '${name}' AND course.name = '${course.name}'
-    MERGE (people)-[:GRADUATED {year: ${course.year}}]->(course)
+    WHERE people.name = '${name.name}' AND course.name = '${name.course}'
+    MERGE (people)-[relship:GRADUATED]->(course)
     RETURN people`)
     return result.records.map(r => r.get('people').properties)
 }

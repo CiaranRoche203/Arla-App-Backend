@@ -9,7 +9,7 @@ nconf.env(['PORT'])
             alias: 'PORT',
             describe: 'Port to run on.',
             demand: false,
-            default: 3000
+            default: 3001
         }
     })
         .defaults({
