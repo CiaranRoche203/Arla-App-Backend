@@ -5,22 +5,26 @@ const getAll = async () =>{
     return result.records.map(r => r.get('people').properties)
 }
 
-const getByName = async (name) =>{
-    const result = await session.run(`MATCH (people:Person {name: '${name}'}) RETURN people`)
+const getByName = async (token) =>{
+    //console.log("here is the token boy", token)
+    const result = await session.run(`MATCH (people:Person {name: '${token}'}) RETURN people`)
     return result.records.map(r => r.get('people').properties)
 }
 
 const getByNameAllRelationships = async (name) =>{
-    const result = await session.run(`MATCH (people:Person {name: '${name}'})
+    console.log(name)
+    const result = await session.run(`MATCH (people:Person {token: '${name}'})
     OPTIONAL MATCH (people)-[r:GRADUATED]->(course:Course) 
     OPTIONAL MATCH (people)-[:INTEREST_IN]->(interest:Interest)
     OPTIONAL MATCH (people)-[:LIVES_IN]->(country:Country)
-    RETURN DISTINCT course.name, r.year, interest.name, country.name`)
+    RETURN DISTINCT people.name, course.name, r.year, interest.name, country.name`)
     const resultsArray = {}
+    resultsArray.people = result.records.map(r => r.get('people.name'))
     resultsArray.course = result.records.map(r => r.get('course.name'))
     resultsArray.course_Year = result.records.map(r => r.get('r.year'))
     resultsArray.interest = result.records.map(r => r.get('interest.name'))
     resultsArray.country = result.records.map(r => r.get('country.name'))
+   
     return resultsArray
 }
 
@@ -37,7 +41,7 @@ const createPerson = async (person) =>{
 //so have to change that to a unique token being passed across, 
 const findbyNameAndUpdate = async (person) =>{
     console.log("stuff: ", person)
-    const result = await session.run(`MATCH (people:Person {token: '117418465623660616637'}) SET people.name = '${person.name}', people.bio = '${person.bio}' RETURN people`)
+    const result = await session.run(`MATCH (people:Person {token: '${person.token}'}) SET people.name = '${person.name}', people.bio = '${person.bio}' RETURN people`)
     return result.records.map(r => r.get('people').properties)
 }
 
@@ -72,9 +76,9 @@ const deleteRelationshipWithInterest = async (name, interest) =>{
 
 //Create
 const createRelationshipWithCourse = async (name) =>{
-    //console.log("Name is: ", name.name, "course is: ", name.course)
+    console.log("Name is: ", name.name, "course is: ", name.course)
     const result = await session.run(`MATCH (people:Person), (course:Course)
-    WHERE people.name = '${name.name}' AND course.name = '${name.course}'
+    WHERE people.token = '${name.name}' AND course.name = '${name.course}'
     MERGE (people)-[relship:GRADUATED]->(course)
     RETURN people`)
     return result.records.map(r => r.get('people').properties)
@@ -90,9 +94,9 @@ const deleteRelationshipWithCourse = async (name, course) =>{
 
 //Create
 const createRelationshipWithCountry = async (name) =>{
-    //console.log("Here is: ", name , country)
+    console.log("Here is: ", name.name, name.country)
     const result = await session.run(`MATCH (people:Person), (country:Country)
-    WHERE people.name = '${name.name}' AND country.name = '${name.country}'
+    WHERE people.token = '${name.name}' AND country.name = '${name.country}'
     MERGE (people)-[:LIVES_IN]->(country)
     RETURN people`)
     return result.records.map(r => r.get('people').properties)
