@@ -24,13 +24,20 @@ const getByNameAllRelationships = async (name) =>{
     return resultsArray
 }
 
+//change this to a user creation
+// person.name will become say google id, person.bio will become google email
+// name will now be id
 const createPerson = async (person) =>{
-    const result = await session.run(`MERGE (people:Person {name: '${person.name}', bio: '${person.bio}'}) RETURN people`)
+    const result = await session.run(`MERGE (people:Person {token: '${person.token}', email: '${person.email}'}) RETURN people`)
     return result.records.map(r => r.get('people').properties)
 }
 
-const findbyNameAndUpdate = async (name, person) =>{
-    const result = await session.run(`MATCH (people:Person {name: '${name}'}) SET people.name = '${person.name}', people.bio = '${person.bio}' RETURN people`)
+//use this to update the profile
+
+//so have to change that to a unique token being passed across, 
+const findbyNameAndUpdate = async (person) =>{
+    console.log("stuff: ", person)
+    const result = await session.run(`MATCH (people:Person {token: '117418465623660616637'}) SET people.name = '${person.name}', people.bio = '${person.bio}' RETURN people`)
     return result.records.map(r => r.get('people').properties)
 }
 
