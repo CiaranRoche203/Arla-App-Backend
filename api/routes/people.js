@@ -51,7 +51,7 @@ people.delete('/:name', async function (req, res, next){
 
 //Create
 people.post('/interest/:name', async function (req, res, next){
-    await peopleModel.createRelationshipWithInterest(req.params.name, req.body)
+    await peopleModel.createRelationshipWithInterest(req.body)
     .then(result => writeResponse(res, result))
     .catch(next);
 })
@@ -67,7 +67,7 @@ people.delete('/interest/:name', async function (req, res, next){
 
 //Create
 people.post('/course/:name', async function (req, res, next){
-    console.log(req.params.name, req.body)
+    //console.log(req.params.name, req.body)
     await peopleModel.createRelationshipWithCourse(req.body)
     .then(result => writeResponse(res, result))
     .catch(next);
@@ -85,7 +85,8 @@ people.delete('/course/:name', async function (req, res, next){
 
 //Create
 people.post('/country/:name', async function (req, res, next){
-    await peopleModel.createRelationshipWithCountry(req.params.name, req.body)
+    console.log("We now have:", req.body)
+    await peopleModel.createRelationshipWithCountry(req.body)
     .then(result => writeResponse(res, result))
     .catch(next);
 })

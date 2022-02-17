@@ -39,8 +39,6 @@ const findByNameAndDelete = async (name) =>{
     return result.records.map(r => r.get('people').properties)
 }
 
-
-
 //--------------------
 //Relationship methods
 //--------------------
@@ -49,9 +47,9 @@ const findByNameAndDelete = async (name) =>{
 //---Interest Node---
 
 //Create
-const createRelationshipWithInterest = async (name, interest) =>{
+const createRelationshipWithInterest = async (name) =>{
     const result = await session.run(`MATCH (people:Person), (interest:Interest)
-    WHERE people.name = '${name}' AND interest.name = '${interest.name}'
+    WHERE people.name = '${name.name}' AND interest.name = '${name.interest}'
     MERGE (people)-[:INTEREST_IN]->(interest)
     RETURN people`)
     return result.records.map(r => r.get('people').properties)
@@ -67,7 +65,7 @@ const deleteRelationshipWithInterest = async (name, interest) =>{
 
 //Create
 const createRelationshipWithCourse = async (name) =>{
-    console.log("Name is: ", name.name, "course is: ", name.course)
+    //console.log("Name is: ", name.name, "course is: ", name.course)
     const result = await session.run(`MATCH (people:Person), (course:Course)
     WHERE people.name = '${name.name}' AND course.name = '${name.course}'
     MERGE (people)-[relship:GRADUATED]->(course)
@@ -84,9 +82,10 @@ const deleteRelationshipWithCourse = async (name, course) =>{
 //---Country Node---
 
 //Create
-const createRelationshipWithCountry = async (name, country) =>{
+const createRelationshipWithCountry = async (name) =>{
+    //console.log("Here is: ", name , country)
     const result = await session.run(`MATCH (people:Person), (country:Country)
-    WHERE people.name = '${name}' AND country.name = '${country.name}'
+    WHERE people.name = '${name.name}' AND country.name = '${name.country}'
     MERGE (people)-[:LIVES_IN]->(country)
     RETURN people`)
     return result.records.map(r => r.get('people').properties)
