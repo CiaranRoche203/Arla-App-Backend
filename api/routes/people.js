@@ -50,6 +50,7 @@ people.put('/:token', async function (req, res, next){
 
 //Create
 people.post('/interest/:token', async function (req, res, next){
+    console.log("We now have interests:", req.body)
     await peopleModel.createRelationshipWithInterest(req.body)
     .then(result => writeResponse(res, result))
     .catch(next);

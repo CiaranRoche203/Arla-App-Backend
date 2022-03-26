@@ -22,7 +22,8 @@ interest.get('/all/:name', async function (req, res, next){
 })
 
 interest.post('/', async function (req, res, next){
-    await interestModel.create(req.body)
+    console.log("We now have interests:", req.body.fields[0].value)
+    await interestModel.create(req.body.fields[0].value)
     .then(result => writeResponse(res, result))
     .catch(next);
 })

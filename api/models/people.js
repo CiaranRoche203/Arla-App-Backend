@@ -17,9 +17,10 @@ const getByNameAllRelationships = async (name) =>{
     OPTIONAL MATCH (people)-[r:GRADUATED]->(course:Course) 
     OPTIONAL MATCH (people)-[:INTEREST_IN]->(interest:Interest)
     OPTIONAL MATCH (people)-[:LIVES_IN]->(country:Country)
-    RETURN DISTINCT people.name, course.name, r.year, interest.name, country.name`)
+    RETURN DISTINCT people.name, people.bio, course.name, r.year, interest.name, country.name`)
     const resultsArray = {}
     resultsArray.people = result.records.map(r => r.get('people.name'))
+    resultsArray.bio = result.records.map(r => r.get('people.bio'))
     resultsArray.course = result.records.map(r => r.get('course.name'))
     resultsArray.course_Year = result.records.map(r => r.get('r.year'))
     resultsArray.interest = result.records.map(r => r.get('interest.name'))
@@ -59,8 +60,9 @@ const findByNameAndDelete = async (name) =>{
 
 //Create
 const createRelationshipWithInterest = async (name) =>{
+    console.log("We now will create a relationship: ", name.name, name.interest[0].value )
     const result = await session.run(`MATCH (people:Person), (interest:Interest)
-    WHERE people.name = '${name.name}' AND interest.name = '${name.interest}'
+    WHERE people.token = '${name.name}' AND interest.name = '${name.interest[0].value}'
     MERGE (people)-[:INTEREST_IN]->(interest)
     RETURN people`)
     return result.records.map(r => r.get('people').properties)

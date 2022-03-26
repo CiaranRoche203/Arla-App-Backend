@@ -16,7 +16,8 @@ const getByInterestAllRelationships = async (name) =>{
 }
 
 const create = async (interest) =>{
-    const result = await session.run(`MERGE (interest:Interest {name: '${interest.name}'}) RETURN interest`)
+    console.log("creating an interests:", interest)
+    const result = await session.run(`MERGE (interest:Interest {name: '${interest}'}) RETURN interest`)
     return result.records.map(r => r.get('interest').properties)
 }
 
